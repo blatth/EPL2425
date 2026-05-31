@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: premierleague_db
+    restart: always
+
+    environment:
+      POSTGRES_DB: premierleague    # db vacía
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:  # para que guardae la info en la db y no se borre
+  pg_data:

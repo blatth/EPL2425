@@ -1,8 +1,17 @@
 package com.example.demo;
-import java.util.List;
 
-public class Player {
+import java.util.List;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "players")
+public class Player{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
     private Team team;
     private String nationality;
     private String position;
@@ -25,6 +34,9 @@ public class Player {
     private int yellowCards;
     private int redCards;
     private int fouls;
+
+    public Player (){
+    }
 
     public Player(String name, Team team, String nationality, String position, int appearances, int minPlayed,
                   int goals, int assists, int shots, int shotsOnTarget, int touches, int passesAttempted,

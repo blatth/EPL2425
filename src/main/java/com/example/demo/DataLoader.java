@@ -6,14 +6,25 @@ import jakarta.annotation.PostConstruct;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class DataLoader{
-    private Map<String, Team> teamsDatabase = new HashMap<>();
-    private List<Player> playersDatabase = new ArrayList<>();
+
+    @Autowired
+    private TeamRepo teamRepository;
+
+    @Autowired
+    private PlayerRepo playerRepository;
 
     @PostConstruct
     public void loadData(){
+
+        if (teamRepository.count() > 0) {
+            System.out.println("Datos ya cargados en la DB. Saltando lectura de CSV...");
+            return;
+        }
+
         try{
             Reader teamReader = new InputStreamReader(getClass().getResourceAsStream("/teams.csv"));
             Iterable<CSVRecord> teamRecords = CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build().parse(teamReader);
@@ -31,7 +42,7 @@ public class DataLoader{
                 int points = Integer.parseInt(record.get("Pts"));
                 double ptsPerMatch = Double.parseDouble(record.get("Pts/MP"));
                 double xg = Double.parseDouble(record.get("xG"));
-                double xga =  Double.parseDouble(record.get("xGA"));
+                double xga = Double.parseDouble(record.get("xGA"));
                 double xgd = Double.parseDouble(record.get("xGD"));
                 double xgdPer90m = Double.parseDouble(record.get("xGD/90"));
                 int attendance = Integer.parseInt(record.get("Attendance"));
@@ -40,10 +51,9 @@ public class DataLoader{
 
                 Team team = new Team(name, rank, matchesPlayed, wins, draws, losses, gf, ga, gd, points, ptsPerMatch, xg,
                         xga, xgd, xgdPer90m, attendance, topScorer, goalkeeper);
-                teamsDatabase.put(name, team);
+                teamRepository.save(team);
             }
-            System.out.println("Teams loaded:" + teamsDatabase.size());
-
+            System.out.println("Equipos guardados en SQL: " + teamRepository.count());
 
             Reader playerReader = new InputStreamReader(getClass().getResourceAsStream("/players.csv"));
             Iterable<CSVRecord> playerRecords = CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build().parse(playerReader);
@@ -52,7 +62,7 @@ public class DataLoader{
                 String name = record.get("Player Name");
 
                 String teamName = record.get("Club");
-                Team team = teamsDatabase.get(teamName);    // JOIN
+                Team team = teamRepository.findById(teamName).orElse(null);
 
                 String nationality = record.get("Nationality");
                 String position = record.get("Position");
@@ -60,7 +70,7 @@ public class DataLoader{
                 int appearances = parseIntSafe(record.get("Appearances"));
                 int minPlayed = parseIntSafe(record.get("Minutes"));
                 int goals = parseIntSafe(record.get("Goals"));
-                int assists =  parseIntSafe(record.get("Assists"));
+                int assists = parseIntSafe(record.get("Assists"));
                 int shots = parseIntSafe(record.get("Shots"));
                 int shotsOnTarget = parseIntSafe(record.get("Shots On Target"));
                 int touches = parseIntSafe(record.get("Touches"));
@@ -82,12 +92,12 @@ public class DataLoader{
                         passCompPercentage, carries, progCarries, interceptions, clearances, blocks,
                         tackles, yellowCards, redCards, fouls);
 
-                playersDatabase.add(player);
+                playerRepository.save(player);
             }
-            System.out.println("Players loaded:" + playersDatabase.size());
+            System.out.println("Jugadores guardados en SQL: " + playerRepository.count());
         }
         catch (Exception e){
-            System.out.println("Error loading data: " + e.getMessage());
+            System.out.println("Error cargando data: " + e.getMessage());
         }
     }
 
@@ -119,15 +129,5 @@ public class DataLoader{
             return 0.0;
         }
         return Double.parseDouble(value.replace("%", "").trim());
-    }
-
-    // GETTERS
-
-    public Map<String, Team> getTeamsDatabase() {
-        return teamsDatabase;
-    }
-
-    public List<Player> getPlayersDatabase() {
-        return playersDatabase;
     }
 }

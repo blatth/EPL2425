@@ -1,8 +1,12 @@
 package com.example.demo;
 
 import java.util.List;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "teams")
 public class Team{
+    @Id
     private String name;
     private int rank;
     private int matchesPlayed;
@@ -19,8 +23,12 @@ public class Team{
     private double xgd;
     private double xgdPer90m;
     private int attendance;
+    @ElementCollection
     private List<String> topScorer;
     private String goalkeeper;
+
+    public Team(){
+    }
 
     // --------------------------
 
