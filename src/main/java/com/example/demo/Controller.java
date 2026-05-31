@@ -16,13 +16,13 @@ public class Controller {
     @Autowired
     private PlayerRepo playerRepository;
 
-    // Endpoint
+    // Teams endpoint
     @GetMapping("/teams")
     public List<Team> getAllTeams() {
         return teamRepository.findAll();
     }
 
-    // Specific team endpoint
+    // Team específico endpoint
     @GetMapping("/teams/{name}")
     public Team getTeamByName(@PathVariable String name) {
         return teamRepository.findById(name).orElse(null); // .orElse(null) es por si se busca un equipo inexistente
@@ -31,7 +31,6 @@ public class Controller {
     // Players endpoint
     @GetMapping("/players")
     public List<Player> getAllPlayers() {
-        // .findAll() hace un "SELECT * FROM players"
         return playerRepository.findAll();
     }
 }
