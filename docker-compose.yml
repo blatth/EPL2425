@@ -17,5 +17,13 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
+  analytics:
+      build:
+        context: ./analisis_py
+      container_name: entorno_analisis
+      volumes:
+        - ./analisis_py:/app
+      network_mode: "host"
+
 volumes:  # para que guardae la info en la db y no se borre
   pg_data:

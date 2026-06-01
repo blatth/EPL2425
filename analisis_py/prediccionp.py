@@ -78,6 +78,7 @@ fig = px.scatter(
     x='Pases_Reales', 
     y='Pases_Predichos',
     hover_name='Jugador',
+    text='Jugador',
     hover_data={'Pases_Reales': ':.1f', 'Pases_Predichos': ':.1f', 'Error_Absoluto': ':.1f'},
     color='Error_Absoluto', # color más oscuro a los que tienen mayor error
     color_continuous_scale='Viridis',
@@ -93,6 +94,7 @@ fig.add_shape(
     x0=min_val, y0=min_val, x1=max_val, y1=max_val
 )
 
+fig.update_traces(textposition='top center')
 fig.update_layout(template="plotly_dark", hovermode="closest")
 fig.show()
-fig.write_image("modelo_pases_plotly.png", scale=3)
+fig.write_image("modelo_pases_med.png", scale=3)

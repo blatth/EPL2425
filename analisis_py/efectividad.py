@@ -2,6 +2,8 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
 
 print("Conectando con la API...")
 
@@ -19,41 +21,38 @@ if respuesta.status_code == 200:
     delanteros = df[
         ((df['position'].str.contains('FW', na=False)) | (df['position'].str.contains('MID', na=False))) &
         (df['minPlayed'] > 500)
-    ]
+    ].copy()
 
     print(f"Analizando {len(delanteros)} jugadores (>500min jugados)...")
 
     # visualización
-    sns.set_theme(style="darkgrid")
-    plt.figure(figsize=(10, 6))
-
-    scatter = sns.scatterplot(
-        data=delanteros,
-        x='shotsOnTarget',
-        y='goals',
-        hue='club',
-        size='minPlayed',
-        sizes=(50, 400),
-        alpha=0.7
+    delanteros['tag_goles'] = delanteros.apply(
+        lambda row: row['name'] if row['goals'] >= 5 else '', axis=1
     )
 
-    for i in range(delanteros.shape[0]):
-        if delanteros['goals'].iloc[i] >= 5:
-            plt.text(
-                delanteros['shotsOnTarget'].iloc[i] + 0.5,
-                delanteros['goals'].iloc[i],
-                delanteros['name'].iloc[i],
-                fontsize=5
-            )
+    fig = px.scatter(
+        delanteros,
+        x='shotsOnTarget',
+        y='goals',
+        color='club',
+        size='minPlayed',          
+        hover_name='name',         
+        text='tag_goles',     
+        title='Efectividad de los delanteros y mediocampistas: goles vs. tiros al arco',
+        labels={
+            'shotsOnTarget': 'Tiros directos al arco',
+            'goals': 'Goles',
+            'club': 'Club',
+            'minPlayed': 'Minutos jugados'
+        },
+        template='plotly_dark'     
+    )
 
-    plt.title('Efectividad de los delanteros y mediocampistas: goles vs. tiros al arco')
-    plt.xlabel('Tiros directos al arco')
-    plt.ylabel('Goles')
-    plt.legend(bbox_to_anchor=(1.05,1), loc='upper left')
-    plt.tight_layout()
+    fig.update_traces(textposition='top center')
 
-    plt.savefig("efectividad_del.png", dpi=300)
-    plt.show()
+    fig.write_image("efectividad_goles_mid_del.png", scale=3)
+
+    fig.show()
 
 else:
     print(f"Error con la API. Status code: {respuesta.status_code}")
