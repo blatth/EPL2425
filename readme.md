@@ -39,3 +39,5 @@ Para ejecutar algunos de los análisis de datos, podés ver los disponibles en l
 ```bash
 docker exec -it entorno_analisis python *nombre_del_analisis*.py
 ```
+
+Cada código genera una imagen estática y un .html interactivo para poder ver los gráficos con mayor detalle.
