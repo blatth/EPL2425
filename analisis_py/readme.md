@@ -24,3 +24,5 @@ Como se quiere predecir los pases **reales** que hubo, el vector toma el valor d
 Todo fue medido en 90 minutos para normalizar los datos, ya que hay jugadores que jugaron muchos más minutos que otros y viceversa. De esta forma logro 2 cosas:
 - Aislo el factor "talento": se puede evaluar un titular de la misma forma que un suplente
 - Cierta coherencia matemática?: Como se está intentando predecir una tasa (pases por partido) utilizando _otras_ tasas (quitas por partido, tiros por partido, etc), se alinean espacios vectoriales. De esta forma reduzco el "ruido" de los datos y se genera menos margen de error.
+
+![Pases reales vs predicciones, medidos en 90m (MED)](/modelo_pases_med.png)
