@@ -12,7 +12,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 
 print("Conectando con la API...")
 
-url = "http://localhost:8080/players"
+url = "http://host.docker.internal:8080/players"
 respuesta = requests.get(url)
 
 df = pd.json_normalize(respuesta.json())
@@ -73,6 +73,11 @@ results_df = pd.DataFrame({
     'Error_Absoluto': abs(Y_test - predicts)
 })
 
+# filtro para mostrar solo los jugadores con >15 pases en el png
+results_df['tag_anomalos'] = results_df.apply(
+    lambda row: row['Jugador'] if row['Error_Absoluto'] > 15 else '', axis=1
+)
+
 fig = px.scatter(
     results_df, 
     x='Pases_Reales', 
@@ -96,5 +101,5 @@ fig.add_shape(
 
 fig.update_traces(textposition='top center')
 fig.update_layout(template="plotly_dark", hovermode="closest")
-fig.show()
 fig.write_image("modelo_pases_med.png", scale=3)
+fig.write_html("grafico_modelo_pases_med.html")

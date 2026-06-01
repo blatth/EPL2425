@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 
 print("Conectando con la API...")
 
-url = "http://localhost:8080/players"
+url = "http://host.docker.internal:8080/players"
 respuesta = requests.get(url)
 
 if respuesta.status_code == 200:
@@ -52,7 +52,7 @@ if respuesta.status_code == 200:
 
     fig.write_image("efectividad_goles_mid_del.png", scale=3)
 
-    fig.show()
+    fig.write_html("grafico_efectividad_goles_mid_del.html")
 
 else:
     print(f"Error con la API. Status code: {respuesta.status_code}")
