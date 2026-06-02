@@ -22,22 +22,23 @@ Para ejecutar el proyecto es necesario tener preinstalado lo siguiente:
 ### 1. Levantar el proyecto
 
 Ejecutar en la raiz:
+
 ```bash
-docker compose up -d --build
+make infra-up
 ```
 
 ### 2. Levantar la API
 Ejecutar en la raiz:
+
 ```bash
-./mvnw spring-boot:run
+make api-run
 ```
 
-Si usás [IntelliJ IDEA](https://www.jetbrains.com/idea/), podés darle Run y no hacer lo anterior.
-
 ### 3.
-Para ejecutar algunos de los análisis de datos, podés ver los disponibles en la carpeta [analisis_py](https://github.com/blatth/EPL2425/tree/master/analisis_py) y ejecutar en la raiz:
+Para ejecutar algunos de los análisis de datos, podés ver los disponibles en la carpeta [analisis_py](https://github.com/blatth/EPL2425/blob/master/analisis_py/anlisis-prediccion-pases/modelo_pases_med.png) y ejecutar en la raiz:
+
 ```bash
-docker exec -it entorno_analisis python *nombre_del_analisis*.py
+make *nombre del analisis*
 ```
 
 Cada código genera una imagen estática y un .html interactivo para poder ver los gráficos con mayor detalle.
