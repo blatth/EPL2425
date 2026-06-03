@@ -4,6 +4,8 @@ Para este caso utilicé [Random Forest Regressor](https://scikit-learn.org/stabl
 
 El eje X muestra la cantidad de pases que el jugador completó realmente en 90m, el eje Y la predicción calculada por el modelo. La línea roja es la que indica de cuánto fue el error, por lo que si el punto cae exactamente en ella el margen de error fue 0 (por lo tanto, mientras más lejos de la línea esté cada punto, más anómalo será el caso de la predicción).
 
+Se analizaron jugadores con más de 300min jugados
+
 ## ¿Qué parámetros fueron usados?
 
 ### `X` - Matriz

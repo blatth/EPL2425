@@ -18,7 +18,6 @@ if respuesta.status_code == 200:
 
     datos_json = respuesta.json()
     df = pd.json_normalize(datos_json)
-    # filtro jugadors con >300min
     df = df[(df['minPlayed'] > 300) & (df['position'].str.contains('MID', na=False))].copy()
 
     print(f"Preparando datos sobre {len(df)} mediocampistas y normalizando por 90min")
@@ -35,20 +34,25 @@ if respuesta.status_code == 200:
         df[var + '_p90'] = (df[var] / df['minPlayed']) * 90
 
     # matriz con vars normalizadas y equipos 
-
     model_cols = [var + '_p90' for var in tactic_vars] + ['team.name']
     X_raw = df[model_cols]
 
+    print("Aplicando One-Hot encoding")
+
     X = pd.get_dummies(X_raw, columns=['team.name'], drop_first=True)
     Y = (df['passesCompleted'] / df['minPlayed']) * 90
+
+    print("Filtrando datos")
 
     nombres = df['name']
 
     X_train, X_test, Y_train, Y_test, nombres_train, nombres_test = train_test_split(X, Y, nombres, test_size=0.2, random_state=42)
 
+    print("Entrenando modelo")
     model = RandomForestRegressor(n_estimators=100, random_state=42)
     model.fit(X_train, Y_train)
 
+    print("Calculando predicciones")
     predicts = model.predict(X_test)
 
     print("Resultados del modelo:")

@@ -33,12 +33,12 @@ if respuesta.status_code == 200:
 
     df['perfil'] = 'No analizado'
 
-    # arquetipo por posición - k_clusters
-    subarq = {'DEF': 3, 'MID': 4, 'FW': 3}
+    # subposiciones por posición - k_clusters
+    subpos = {'DEF': 3, 'MID': 4, 'FW': 3}
 
-    print("Análisis de subarquetipos")
+    print("Análisis de subposiciones")
 
-    for pos, k_clusters in subarq.items():
+    for pos, k_clusters in subpos.items():
         print(f"\n>> Análisis de la posición asociada: {pos}")
         
         # divido jugadores por posición
@@ -54,7 +54,9 @@ if respuesta.status_code == 200:
         kmeans = KMeans(n_clusters=k_clusters, random_state=42, n_init='auto')
         sub_df['cluster_id'] = kmeans.fit_predict(X_sub)
         
-        # todo esto es principalmente utilizado para clasificar los subarquetipos con algún nombre
+# todo esto es código que hice antes para clasificar cada subpos de forma arbitraria pero dejo acá porque
+# sirve para detallar qué variables son las principales de cada subpos
+
         resumen = sub_df.groupby('cluster_id')[variables_p90].mean()
         
         # extraigo la matriz de desvíaciones respecto al prom general
@@ -63,7 +65,7 @@ if respuesta.status_code == 200:
         for cluster_id in range(k_clusters):
             cantidad = len(sub_df[sub_df['cluster_id'] == cluster_id])
             
-            # guardo las variables más representativas de cada arquetipo
+            # guardo las variables más representativas de cada subpos
             centroid_dic = pd.Series(centroid[cluster_id], index=variables_p90)
             top_rasgos = centroid_dic.nlargest(4).index
 
@@ -87,7 +89,6 @@ if respuesta.status_code == 200:
     df['eje_X'] = componentes[:, 0]
     df['eje_Y'] = componentes[:, 1]
 
-    # para excluir arqueros
     df_plot = df[df['perfil'] != 'No analizado'].copy()
     df_plot = df_plot.sort_values('perfil')
 

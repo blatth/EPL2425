@@ -6,6 +6,8 @@ El eje X mide el "modo de juego" de cada jugador, siendo la parte negativa la **
 
 El eje Y mide el volumen de juego. Separa a los jugadores que son el centro de participación del equipo (como los 5 posicionales) de aquellos con intervenciones más esporádicas o aisladas (por ejemplo, centrales)
 
+
+
 ## ¿Qué parámetros fueron usados?
 
 ### `X` - Matriz
