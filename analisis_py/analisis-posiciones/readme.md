@@ -3,6 +3,7 @@
 En este caso usé [K-means](https://en.wikipedia.org/wiki/K-means_clustering). De acuerdo al agrupamiento que el modelo hace en [clusters](https://en.wikipedia.org/wiki/Cluster_analysis), calculando la distancia entre ellos de acuerdo a las desvíaciones del promedio general (el [centroide](https://en.wikipedia.org/wiki/Centroid) de cada cluster), se extraen las 4 variables tácticas (o rasgos) más respresentativas de cada jugador para tratar de encontrar su _"posición real"_. 
 
 El eje X mide el "modo de juego" de cada jugador, siendo la parte negativa la **contención** y la parte positiva la **creación**.
+
 El eje Y mide el volumen de juego. Separa a los jugadores que son el centro de participación del equipo (como los 5 posicionales) de aquellos con intervenciones más esporádicas o aisladas (por ejemplo, centrales)
 
 ## ¿Qué parámetros fueron usados?
