@@ -35,7 +35,7 @@ make api-run
 ```
 
 ### 3.
-Para ejecutar algunos de los análisis de datos, podés ver los disponibles en la carpeta [analisis_py](https://github.com/blatth/EPL2425/blob/master/analisis_py/anlisis-prediccion-pases/modelo_pases_med.png) y ejecutar en la raiz:
+Para ejecutar algunos de los análisis de datos, podés ver los disponibles en la carpeta [analisis_py](https://github.com/blatth/EPL2425/tree/master/analisis_py) y ejecutar en la raiz:
 
 ```bash
 make *nombre del analisis*
