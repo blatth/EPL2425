@@ -63,7 +63,7 @@ if respuesta.status_code == 200:
         for cluster_id in range(k_clusters):
             cantidad = len(sub_df[sub_df['cluster_id'] == cluster_id])
             
-            # guardo las variables más representativas de cada arquetipo ★
+            # guardo las variables más representativas de cada arquetipo
             centroid_dic = pd.Series(centroid[cluster_id], index=variables_p90)
             top_rasgos = centroid_dic.nlargest(4).index
 
