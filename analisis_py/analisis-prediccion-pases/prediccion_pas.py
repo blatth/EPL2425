@@ -39,22 +39,16 @@ if respuesta.status_code == 200:
     model_cols = [var + '_p90' for var in tactic_vars] + ['team.name']
     X_raw = df[model_cols]
 
-    print("Aplicando One-Hot encoding")
-
     X = pd.get_dummies(X_raw, columns=['team.name'], drop_first=True)
     Y = (df['passesCompleted'] / df['minPlayed']) * 90
-
-    print("Filtrando datos")
 
     nombres = df['name']
 
     X_train, X_test, Y_train, Y_test, nombres_train, nombres_test = train_test_split(X, Y, nombres, test_size=0.2, random_state=42)
 
-    print("Entrenando modelo")
     model = RandomForestRegressor(n_estimators=100, random_state=42)
     model.fit(X_train, Y_train)
 
-    print("Calculando predicciones")
     predicts = model.predict(X_test)
 
     print("Resultados del modelo:")

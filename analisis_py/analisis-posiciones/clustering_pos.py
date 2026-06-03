@@ -36,10 +36,10 @@ if respuesta.status_code == 200:
     # arquetipo por posición - k_clusters
     subarq = {'DEF': 3, 'MID': 4, 'FW': 3}
 
-    print("--- Iniciando análisis por subarquetipos ---")
+    print("Análisis de subarquetipos")
 
     for pos, k_clusters in subarq.items():
-        print(f"\n>> Analizando la posición asociada: {pos}")
+        print(f"\n>> Análisis de la posición asociada: {pos}")
         
         # divido jugadores por posición
         mask = df['position'].str.contains(pos, na=False)
@@ -175,8 +175,3 @@ if respuesta.status_code == 200:
 
 else: 
     print(f"Error con la API. Status code: {respuesta.status_code}")
-
-
-# ★ - al tener extraida la matriz con las desvíaciones al promedio general (el centroide de cada cluster)
-# luego puedo matchearlos con las variables (o rasgos) tácticas con las que entrené al modelo para extraer
-# las (en este caso) 4 más representativas
